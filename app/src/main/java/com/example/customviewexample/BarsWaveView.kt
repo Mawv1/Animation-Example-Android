@@ -1,5 +1,6 @@
 package com.example.customviewexample
 
+import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -19,12 +20,13 @@ class BarsWaveView @JvmOverloads constructor(
     var minBarHeight: Float
     var maxBarHeight: Float
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xFF6200EE.toInt() // kolor na stałe
+        color = 0xFF6200EE.toInt()
         style = Paint.Style.FILL
     }
 
     private lateinit var barHeights: FloatArray
     private val animators = mutableListOf<ValueAnimator>()
+    private var animatorSet: AnimatorSet? = null
 
     var isRunning = false
         private set
@@ -44,24 +46,25 @@ class BarsWaveView @JvmOverloads constructor(
     fun stopAnimation() {
         isRunning = false
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            animators.forEach { it.pause() }
+            animatorSet?.pause()
         } else {
-            animators.forEach { it.cancel() }
+            animatorSet?.end()
         }
     }
 
     fun startAnimation() {
         if (isRunning) return
         isRunning = true
-        if (animators.isEmpty() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+        if (animatorSet == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             startAnimations()
         } else {
-            animators.forEach { it.resume() }
+            animatorSet?.resume()
         }
     }
 
     private fun startAnimations() {
         animators.clear()
+        val animatorsList = mutableListOf<ValueAnimator>()
         for (i in 0 until barCount) {
             val animator = ValueAnimator.ofFloat(minBarHeight, maxBarHeight).apply {
                 duration = 500 + Random.nextLong(0, 500)
@@ -73,8 +76,12 @@ class BarsWaveView @JvmOverloads constructor(
                     invalidate()
                 }
             }
-            animator.start()
+            animatorsList.add(animator)
             animators.add(animator)
+        }
+        animatorSet = AnimatorSet().apply {
+            playTogether(animatorsList as Collection<android.animation.Animator>)
+            start()
         }
     }
 
