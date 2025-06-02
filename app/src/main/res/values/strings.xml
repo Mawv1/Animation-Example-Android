@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Custom View Example</string>
+    <string name="play_stop_button">Przycisk odtwarzania/zatrzymania</string>
+</resources>
