@@ -5,10 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/next_screen_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dalej"
+        app:layout_constraintBottom_toTopOf="@+id/play_stop_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bars_wave_view" />
+
     <com.example.customviewexample.BarsWaveView
         android:id="@+id/bars_wave_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="-205dp" />
 
     <com.example.customviewexample.AnimatedPlayStopButton
         android:id="@+id/play_stop_button"
