@@ -1,0 +1,10 @@
+<resources>
+    <declare-styleable name="BarsWaveView">
+        <attr name="barCount" format="integer" />
+        <attr name="barWidth" format="dimension" />
+        <attr name="barSpacing" format="dimension" />
+        <attr name="minBarHeight" format="dimension" />
+        <attr name="maxBarHeight" format="dimension" />
+        <attr name="barColor" format="color" />
+    </declare-styleable>
+</resources>

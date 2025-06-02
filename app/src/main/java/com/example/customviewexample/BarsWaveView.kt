@@ -13,20 +13,33 @@ class BarsWaveView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private val barCount = 7
-    private val barWidth = 60f
-    private val barSpacing = 40f
-    private val minBarHeight = 80f
-    private val maxBarHeight = 350f
+    var barCount: Int
+    var barWidth: Float
+    var barSpacing: Float
+    var minBarHeight: Float
+    var maxBarHeight: Float
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xFF6200EE.toInt()
+        color = 0xFF6200EE.toInt() // kolor na stałe
         style = Paint.Style.FILL
     }
-    private val barHeights = FloatArray(barCount) { minBarHeight }
+
+    private lateinit var barHeights: FloatArray
     private val animators = mutableListOf<ValueAnimator>()
 
-    var isRunning = true
+    var isRunning = false
         private set
+
+    init {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BarsWaveView)
+        barCount = typedArray.getInt(R.styleable.BarsWaveView_barCount, 7)
+        barWidth = typedArray.getDimension(R.styleable.BarsWaveView_barWidth, 60f)
+        barSpacing = typedArray.getDimension(R.styleable.BarsWaveView_barSpacing, 40f)
+        minBarHeight = typedArray.getDimension(R.styleable.BarsWaveView_minBarHeight, 80f)
+        maxBarHeight = typedArray.getDimension(R.styleable.BarsWaveView_maxBarHeight, 350f)
+        typedArray.recycle()
+
+        barHeights = FloatArray(barCount) { minBarHeight }
+    }
 
     fun stopAnimation() {
         isRunning = false
@@ -40,16 +53,11 @@ class BarsWaveView @JvmOverloads constructor(
     fun startAnimation() {
         if (isRunning) return
         isRunning = true
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            animators.forEach { it.resume() }
-        } else {
-            // Dla starszych API trzeba utworzyć animacje od nowa
+        if (animators.isEmpty() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             startAnimations()
+        } else {
+            animators.forEach { it.resume() }
         }
-    }
-
-    init {
-        startAnimations()
     }
 
     private fun startAnimations() {

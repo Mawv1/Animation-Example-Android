@@ -1,6 +1,5 @@
 package com.example.customviewexample
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -13,8 +12,9 @@ class SecondScreen : AppCompatActivity() {
         setContentView(R.layout.activity_second_screen)
 
         val backToMainScreenButton = findViewById<Button>(R.id.back_button)
-        backToMainScreenButton.setOnClickListener{
-
+        backToMainScreenButton.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
     }
 }

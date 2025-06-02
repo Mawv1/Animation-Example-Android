@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dalej"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/play_stop_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +21,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="-205dp" />
+        tools:layout_editor_absoluteY="-205dp"
+        app:barCount="7"
+        app:barWidth="30dp"
+        app:barSpacing="20dp"
+        app:minBarHeight="30dp"
+        app:maxBarHeight="150dp" />
 
     <com.example.customviewexample.AnimatedPlayStopButton
         android:id="@+id/play_stop_button"

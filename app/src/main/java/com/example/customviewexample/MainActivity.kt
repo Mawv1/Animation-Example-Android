@@ -12,7 +12,6 @@ class MainActivity : AppCompatActivity() {
 
         val barsWaveView = findViewById<BarsWaveView>(R.id.bars_wave_view)
         val playStopButton = findViewById<AnimatedPlayStopButton>(R.id.play_stop_button)
-
         val nextScreenButton = findViewById<Button>(R.id.next_screen_button)
 
         nextScreenButton.setOnClickListener {
@@ -24,12 +23,14 @@ class MainActivity : AppCompatActivity() {
         playStopButton.setOnClickListener {
             if (barsWaveView.isRunning) {
                 barsWaveView.stopAnimation()
-                playStopButton.setPlaying(false)
+                playStopButton.setPlaying(true)
             } else {
                 barsWaveView.startAnimation()
-                playStopButton.setPlaying(true)
+                playStopButton.setPlaying(false)
             }
         }
-//        playStopButton.setPlaying(true)
+
+        barsWaveView.stopAnimation()
+        playStopButton.setPlaying(true)
     }
 }
